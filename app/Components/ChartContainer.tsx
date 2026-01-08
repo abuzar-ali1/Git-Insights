@@ -1,4 +1,3 @@
-// components/dashboard/ChartContainer.tsx
 'use client';
 
 import { useState } from 'react';
@@ -43,35 +42,6 @@ export default function ChartContainer({
 }: ChartContainerProps) {
   const [timeRange, setTimeRange] = useState('week');
 
-  // Determine chart labels based on type
-  const getChartConfig = () => {
-    switch (type) {
-      case 'line':
-        return {
-          xKey: 'name',
-          yKey: dataKey,
-          lineColors: ['#3B82F6', '#8B5CF6'],
-          lineNames: ['Commits', 'Contributors'],
-          tooltipLabel: 'commits'
-        };
-      case 'bar':
-        return {
-          xKey: 'name',
-          yKey: dataKey,
-          barColor: '#3B82F6',
-          tooltipLabel: dataKey.toLowerCase()
-        };
-      case 'pie':
-        return {
-          dataKey: 'value',
-          nameKey: 'name',
-          tooltipLabel: 'percentage'
-        };
-    }
-  };
-
-  const config = getChartConfig();
-
   const renderChart = () => {
     if (isLoading || !data || data.length === 0) {
       return (
@@ -86,11 +56,15 @@ export default function ChartContainer({
 
     switch (type) {
       case 'line':
+        const lineColors = ['#3B82F6', '#8B5CF6'];
+        const xKey = 'name';
+        const yKey = dataKey;
+        
         return (
           <ResponsiveContainer width="100%" height={height}>
             <LineChart data={data}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-              <XAxis dataKey={config.xKey} stroke="#9CA3AF" />
+              <XAxis dataKey={xKey} stroke="#9CA3AF" />
               <YAxis stroke="#9CA3AF" />
               <Tooltip 
                 contentStyle={{ 
@@ -98,15 +72,15 @@ export default function ChartContainer({
                   border: '1px solid #374151',
                   borderRadius: '8px'
                 }}
-                formatter={(value: number) => [`${value} commits`, 'Count']}
+                formatter={(value: number | undefined) => [`${value || 0} commits`, 'Count']}
               />
               <Legend />
               <Line 
                 type="monotone" 
-                dataKey={config.yKey}
-                stroke={config.lineColors[0]} 
+                dataKey={yKey}
+                stroke={lineColors[0]} 
                 strokeWidth={2}
-                dot={{ fill: config.lineColors[0], strokeWidth: 2 }}
+                dot={{ fill: lineColors[0], strokeWidth: 2 }}
                 activeDot={{ r: 8 }}
               />
             </LineChart>
@@ -114,11 +88,15 @@ export default function ChartContainer({
         );
       
       case 'bar':
+        const barColor = '#3B82F6';
+        const barXKey = 'name';
+        const barYKey = dataKey;
+        
         return (
           <ResponsiveContainer width="100%" height={height}>
             <BarChart data={data}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-              <XAxis dataKey={config.xKey} stroke="#9CA3AF" />
+              <XAxis dataKey={barXKey} stroke="#9CA3AF" />
               <YAxis stroke="#9CA3AF" />
               <Tooltip 
                 contentStyle={{ 
@@ -126,11 +104,11 @@ export default function ChartContainer({
                   border: '1px solid #374151',
                   borderRadius: '8px'
                 }}
-                formatter={(value: number) => [`${value}`, dataKey]}
+                formatter={(value: number | undefined) => [`${value || 0}`, dataKey]}
               />
               <Bar 
-                dataKey={config.yKey} 
-                fill={config.barColor}
+                dataKey={barYKey} 
+                fill={barColor}
                 radius={[4, 4, 0, 0]}
               >
                 {data.map((_, index) => (
@@ -160,6 +138,9 @@ export default function ChartContainer({
         );
       
       case 'pie':
+        const pieDataKey = 'value';
+        const pieNameKey = 'name';
+        
         return (
           <ResponsiveContainer width="100%" height={height}>
             <PieChart>
@@ -171,7 +152,7 @@ export default function ChartContainer({
                 label={({ name, value }) => `${name}: ${value}%`}
                 outerRadius={80}
                 fill="#8884d8"
-                dataKey="value"
+                dataKey={pieDataKey}
               >
                 {data.map((entry, index) => (
                   <Cell 
@@ -186,12 +167,16 @@ export default function ChartContainer({
                   border: '1px solid #374151',
                   borderRadius: '8px'
                 }}
-                formatter={(value: number, name: string) => [`${value}%`, name]}
+                formatter={(value: number | undefined, name: string | undefined) => [`${value || 0}%`, name || '']}
               />
               <Legend />
             </PieChart>
           </ResponsiveContainer>
         );
+        
+      default:
+        // TypeScript knows we've handled all cases, but adding default for safety
+        return null;
     }
   };
 
@@ -236,12 +221,12 @@ export default function ChartContainer({
             </div>
           )}
           {type === 'pie' && data.map((item, index) => (
-            <div key={item.name} className="flex items-center space-x-2">
+            <div key={item?.name || index} className="flex items-center space-x-2">
               <div 
                 className="h-2 w-2 rounded-full" 
                 style={{ backgroundColor: COLORS[index % COLORS.length] }}
               />
-              <span>{item.name}</span>
+              <span>{item?.name || `Item ${index + 1}`}</span>
             </div>
           ))}
         </div>

@@ -12,8 +12,9 @@ import {
   TrendingUp,
   Globe
 } from 'lucide-react';
-import KpiCard from './KpiCard';
+// import KpiCard from './KpiCard';
 import { useGitHubStats } from '@/hooks/useGitHubStats';
+import KpiCard from '../Components/KpiCard';
 
 interface GitHubStatsCardsProps {
   repoPath?: string; // Format: "facebook/react"

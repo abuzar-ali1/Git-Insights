@@ -56,7 +56,7 @@ export default function DashboardPage() {
     const transformLanguagesForChart = () => {
         if (!languagesData) return [];
         
-        const entries = Object.entries(languagesData);
+        const entries = Object.entries(languagesData) as [string, number][];
         const total = entries.reduce((sum, [, value]) => sum + value, 0);
         
         return entries.slice(0, 5).map(([name, value]) => ({
