@@ -25,20 +25,7 @@ export default function RootLayout({
     <html lang="en" className="dark scroll-smooth">
       <body className="bg-gray-950 text-gray-100 min-h-screen flex flex-col">
         <Providers>
-          <Header 
-            onMenuClick={handleMenuClick} 
-            isSidebarOpen={isMobileSidebarOpen}
-          />
-          <div className="flex flex-1">
-            <Sidebar 
-              isMobileOpen={isMobileSidebarOpen}
-              onClose={handleSidebarClose}
-            />
-            <main className="flex-1 overflow-x-hidden">
-              {children}
-            </main>
-          </div>
-          <Footer />
+          {children}
         </Providers>
       </body>
     </html>
