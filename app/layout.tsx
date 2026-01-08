@@ -1,25 +1,20 @@
 'use client';
+import { Metadata } from 'next';
 import './globals.css';
-import Header from './Components/Header';
-import Footer from './Components/Footer';
-import Sidebar from './Components/Sidebar';
 import { Providers } from './providers';
-import { useState } from 'react';
+
+
+export const metadata: Metadata = {
+  title: 'Analytical Dashboard',
+  description: 'Interactive analytical dashboard for monitoring key metrics and KPIs.',
+}
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-
-  const handleMenuClick = () => {
-    setIsMobileSidebarOpen(!isMobileSidebarOpen);
-  };
-
-  const handleSidebarClose = () => {
-    setIsMobileSidebarOpen(false);
-  };
+ 
 
   return (
     <html lang="en" className="dark scroll-smooth">
