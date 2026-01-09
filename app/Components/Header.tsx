@@ -15,6 +15,7 @@ import {
   Home,
   FileText
 } from 'lucide-react';
+import { useComingSoon } from '@/hooks/useComingSoon';
 
 interface HeaderProps {
   onMenuClick?: () => void;
@@ -24,6 +25,9 @@ interface HeaderProps {
 const Header = ({ onMenuClick, isSidebarOpen = false }: HeaderProps) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState('Dashboard');
+
+  const { handleComingSoon } = useComingSoon();
 
   const navItems = [
     { name: 'Dashboard', icon: <Home className="w-4 h-4" />, path: '/dashboard' },
@@ -99,6 +103,7 @@ const Header = ({ onMenuClick, isSidebarOpen = false }: HeaderProps) => {
             {navItems.map((item, index) => (
               <motion.a
                 key={item.name}
+                onClick={handleComingSoon}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 * index }}
@@ -107,8 +112,13 @@ const Header = ({ onMenuClick, isSidebarOpen = false }: HeaderProps) => {
                   backgroundColor: "rgba(59, 130, 246, 0.1)"
                 }}
                 whileTap={{ scale: 0.95 }}
-                href={item.path}
-                className="flex items-center space-x-2 rounded-lg px-4 py-2 text-sm font-medium text-gray-300 transition-colors hover:text-white hover:bg-gray-800"
+                href={"#"}
+                className={`flex items-center space-x-2 rounded-lg
+                 px-4 py-2 text-sm font-medium text-gray-300 transition-colors hover:text-white hover:bg-gray-800 
+                 ${activeItem === item.name
+                    ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white border-l-4 border-blue-500'
+                    : 'text-gray-400 hover:text-white hover:bg-gray-800'
+                  }`}
               >
                 {item.icon}
                 <span>{item.name}</span>
@@ -165,6 +175,7 @@ const Header = ({ onMenuClick, isSidebarOpen = false }: HeaderProps) => {
             </AnimatePresence>
 
             <motion.button
+            onClick={handleComingSoon}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               className="relative rounded-full p-1.5 sm:p-2 text-gray-400 hover:text-white hover:bg-gray-800"
@@ -185,7 +196,7 @@ const Header = ({ onMenuClick, isSidebarOpen = false }: HeaderProps) => {
                 className="flex items-center space-x-2 rounded-full p-0.5 hover:bg-gray-800"
               >
                 <div className="h-7 w-7 sm:h-8 sm:w-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500" />
-                
+
                 <div className="hidden sm:block text-left">
                   <p className="text-xs sm:text-sm font-medium text-white">Abuzar Ali</p>
                   <p className="text-xs text-gray-400 hidden md:block">Admin</p>

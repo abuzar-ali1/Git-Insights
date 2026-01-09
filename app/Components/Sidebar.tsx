@@ -22,6 +22,7 @@ import {
   X
 } from 'lucide-react';
 import Link from 'next/link';
+import { useComingSoon } from '@/hooks/useComingSoon';
 
 interface SidebarProps {
   isMobileOpen?: boolean;
@@ -33,6 +34,8 @@ const Sidebar = ({ isMobileOpen = false, onClose }: SidebarProps) => {
   const [activeItem, setActiveItem] = useState('Dashboard');
   const [isMobile, setIsMobile] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
+    const { handleComingSoon} = useComingSoon();
+  
 
   // Detect screen size and set isMobile state
   useEffect(() => {
@@ -275,11 +278,9 @@ const Sidebar = ({ isMobileOpen = false, onClose }: SidebarProps) => {
                       transition={{ delay: index * 0.05 }}
                     >
                       <Link
-                        href={item.path}
-                        onClick={() => {
-                          setActiveItem(item.name);
-                          if (isMobile && onClose) onClose();
-                        }}
+                        href={'#'}
+                        onClick={handleComingSoon}
+
                       >
                         <motion.div
                           whileHover={{ scale: 1.02, x: 5 }}
@@ -404,7 +405,7 @@ const Sidebar = ({ isMobileOpen = false, onClose }: SidebarProps) => {
                   </motion.div>
                 )}
               </AnimatePresence>
-              <button className="text-gray-400 hover:text-white">
+              <button onClick={handleComingSoon} className="text-gray-400 hover:text-white">
                 <Settings className="h-5 w-5" />
               </button>
             </div>

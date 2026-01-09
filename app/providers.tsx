@@ -5,6 +5,7 @@ import { ReactNode, useState } from 'react';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
 import Sidebar from './Components/Sidebar';
+import { ToastProvider } from './Components/ToasterProvider';
 // import { Sidebar } from './Co';
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ export function Providers({ children }: { children: ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ToastProvider>
         <Header 
             onMenuClick={handleMenuClick} 
             isSidebarOpen={isMobileSidebarOpen}
@@ -36,6 +38,7 @@ export function Providers({ children }: { children: ReactNode }) {
             </main>
           </div>
           <Footer />
+          </ ToastProvider>
     </QueryClientProvider>
   );
 }

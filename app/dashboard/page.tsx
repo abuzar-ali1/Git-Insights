@@ -31,6 +31,7 @@ import { useGitHubStats } from '@/hooks/useGitHubStats';
 import { useGitHubLanguages } from '@/hooks/useGitHubLanguages';
 import { useGitHubCommits } from '@/hooks/useGitHubCommits';
 import { useGitHubIssues } from '@/hooks/useGitHubIssues';
+import { useComingSoon } from '../../hooks/useComingSoon';
 
 export default function DashboardPage() {
     const [dateRange, setDateRange] = useState('7d');
@@ -42,7 +43,7 @@ export default function DashboardPage() {
     const { data: languagesData, isLoading: languagesLoading } = useGitHubLanguages(repoPath);
     const { data: commitsData, isLoading: commitsLoading } = useGitHubCommits(repoPath, dateRange);
     const { data: issuesData, isLoading: issuesLoading } = useGitHubIssues(repoPath);
-    
+    const {handleComingSoon} = useComingSoon()
     // Format repository size
     const formatSize = (kb: number) => {
         if (kb < 1024) return `${kb} KB`;
@@ -184,12 +185,14 @@ export default function DashboardPage() {
                         </div>
                         <div className="flex gap-2">
                             <button
+                                onClick={handleComingSoon}
                                 type="submit"
                                 className="rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 px-4 py-2 text-sm font-medium text-white hover:opacity-90"
                             >
                                 Analyze
                             </button>
                             <button
+                            onClick={handleComingSoon}
                                 type="button"
                                 onClick={handleRefresh}
                                 className="rounded-lg border border-gray-700 bg-gray-800 px-4 py-2 text-sm text-white hover:bg-gray-700"

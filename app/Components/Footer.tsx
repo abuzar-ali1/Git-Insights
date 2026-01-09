@@ -1,5 +1,6 @@
 'use client';
 
+import { useComingSoon } from '@/hooks/useComingSoon';
 import { motion } from 'framer-motion';
 import { 
   BarChart3, 
@@ -17,7 +18,7 @@ import { useState } from 'react';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
-
+  const {handleComingSoon} = useComingSoon();
   const footerLinks = {
     product: [
       { name: 'Features', href: '#' },
@@ -169,6 +170,7 @@ const Footer = () => {
                     <motion.a
                       whileHover={{ x: 5, color: "#60A5FA" }}
                       href={link.href}
+                      onClick={handleComingSoon}
                       className="flex items-center space-x-2 text-sm text-gray-400 transition-colors hover:text-white"
                     >
                       <span>{link.name}</span>
@@ -195,7 +197,7 @@ const Footer = () => {
               <Globe className="h-4 w-4" />
               <span>© {new Date().getFullYear()} InsightFlow Analytics. All rights reserved.</span>
               <span className="hidden sm:inline">•</span>
-              <span className="hidden sm:inline">Made with <Heart className="inline h-3 w-3 text-red-500" /> by developers</span>
+              <span className="hidden sm:inline">Made with <Heart className="inline h-3 w-3 text-red-500" /> by Abuzar Ali</span>
             </motion.div>
 
             {/* Social Links */}
@@ -208,6 +210,7 @@ const Footer = () => {
               {socialLinks.map((social, index) => (
                 <motion.a
                   key={social.label}
+                  onClick={handleComingSoon}
                   initial={{ opacity: 0, scale: 0 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
