@@ -1,4 +1,3 @@
-'use client';
 import { Metadata } from 'next';
 import './globals.css';
 import { Providers } from './providers';
@@ -6,7 +5,7 @@ import { Providers } from './providers';
 
 export const metadata: Metadata = {
   title: 'Analytical Dashboard',
-  description: 'Interactive analytical dashboard for monitoring key metrics and KPIs.',
+  description: 'Interactive analytical dashboard for monitoring key metrics and KPI using Github Rest API.',
 }
 
 export default function RootLayout({
