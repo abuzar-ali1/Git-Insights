@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Github, AlertCircle } from 'lucide-react';
-
-// Hooks
 import { useGitHubStats } from '@/hooks/useGitHubStats';
 import { useGitHubLanguages } from '@/hooks/useGitHubLanguages';
 import { useGitHubCommits } from '@/hooks/useGitHubCommits';
