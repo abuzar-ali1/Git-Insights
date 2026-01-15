@@ -97,7 +97,7 @@ export default function ChartFrequency({
                 contentStyle={{ backgroundColor: '#0d1117', border: '1px solid #30363d', borderRadius: '8px' }}
                 itemStyle={{ color: '#fff' }}
                 labelStyle={{ color: '#8b949e' }}
-                formatter={(value: number) => [value.toLocaleString(), dataKey === 'added' ? 'Lines Added' : 'Lines Deleted']}
+                formatter={(value: any) => [value.toLocaleString(), dataKey === 'added' ? 'Lines Added' : 'Lines Deleted']}
               />
               <Area 
                 type="monotone" 
