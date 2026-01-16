@@ -17,6 +17,8 @@
     "octokit": "^5.0.5",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "react-force-graph": "^1.48.1",
+    "react-force-graph-2d": "^1.29.0",
     "recharts": "^3.6.0",
     "socket.io-client": "^4.8.3"
   },
