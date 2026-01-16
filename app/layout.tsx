@@ -4,10 +4,15 @@ import { Providers } from './providers';
 import { SettingsProvider } from '@/Context/SettingsContext';
 import NextTopLoader from 'nextjs-toploader';
 
-
 export const metadata: Metadata = {
-  title: 'Analytical Dashboard',
-  description: 'Interactive analytical dashboard for monitoring key metrics and KPI using Github Rest API.',
+  title: 'GitInsights | GitHub Analytics Dashboard',
+  description: 'Professional analytics dashboard for monitoring GitHub repositories, commit history, and code frequency metrics.',
+  
+  icons: {
+    icon: 'https://github.githubassets.com/favicons/favicon.svg',
+    shortcut: 'https://github.githubassets.com/favicons/favicon.svg',
+    apple: 'https://github.githubassets.com/apple-touch-icon-180x180.png',
+  },
 }
 
 export default function RootLayout({
@@ -15,8 +20,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
-
   return (
     <html lang="en" className="dark scroll-smooth">
       <body className="bg-gray-950 text-gray-100 min-h-screen flex flex-col">
@@ -24,17 +27,18 @@ export default function RootLayout({
           <Providers>
 
             <NextTopLoader 
-            color="#3b82f6" // The exact blue of your charts
-            initialPosition={0.08}
-            crawlSpeed={200}
-            height={3}
-            crawl={true}
-            showSpinner={false} // We don't need a mini spinner, just the bar
-            easing="ease"
-            speed={200}
-            shadow="0 0 10px #3b82f6,0 0 5px #3b82f6"
-          />
+              color="#3b82f6"
+              initialPosition={0.08}
+              crawlSpeed={200}
+              height={3}
+              crawl={true}
+              showSpinner={false}
+              easing="ease"
+              speed={200}
+              shadow="0 0 10px #3b82f6,0 0 5px #3b82f6"
+            />
             {children}
+            
           </Providers>
         </SettingsProvider>
       </body>
