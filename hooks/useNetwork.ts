@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react';
 
 export function useNetwork() {
-  const [data, setData] = useState({ nodes: [], links: [] });
+  const [data, setData] = useState({ nodes: [] as any, links: [] as any });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -25,14 +25,12 @@ export function useNetwork() {
 
       const users = await response.json();
 
-      // 1. The Sun (Center)
       const nodes: any[] = [
         { id: "Repository", val: 50, color: "#fff", isCenter: true }
       ];
       
       const links: any[] = [];
 
-      // 2. The Planets (Contributors)
       users.forEach((user: any) => {
         nodes.push({
           id: user.login,
@@ -47,7 +45,7 @@ export function useNetwork() {
         });
       });
 
-      setData({ nodes, links });
+      setData({ nodes, links } );
 
     } catch (err: any) {
       setError(err.message);

@@ -19,7 +19,6 @@ interface Props {
 export default function NetworkGraph({ data, isLoading, error }: Props) {
   const [dimensions, setDimensions] = useState({ w: 800, h: 600 });
 
-  // Make graph responsive to window size
   useEffect(() => {
     setDimensions({ 
       w: window.innerWidth > 1000 ? window.innerWidth - 100 : window.innerWidth, 
@@ -61,42 +60,34 @@ export default function NetworkGraph({ data, isLoading, error }: Props) {
         linkColor={() => '#30363d'}
         linkWidth={1}
         
-        // NODE RENDERING (The Avatar Magic)
         nodeCanvasObject={(node: any, ctx, globalScale) => {
             const size = node.isCenter ? 10 : 4; // Center is bigger
             const fontSize = 12 / globalScale;
             
-            // 1. Draw Text Label (only if center or hovered)
             ctx.font = `${fontSize}px Sans-Serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillStyle = node.isCenter ? '#fff' : '#8b949e';
             
-            // Draw name below node
             ctx.fillText(node.id, node.x, node.y + size + 4);
 
-            // 2. Draw Circle/Image
             if (node.img) {
                 const img = new Image();
                 img.src = node.img;
                 
-                // Clip content to circle
                 ctx.save();
                 ctx.beginPath();
                 ctx.arc(node.x, node.y, size, 0, 2 * Math.PI, false);
                 ctx.clip();
                 
-                // Draw image
                 try {
                   ctx.drawImage(img, node.x - size, node.y - size, size * 2, size * 2);
                 } catch(e) {
-                   // Fallback color if image fails
                    ctx.fillStyle = '#444'; 
                    ctx.fill();
                 }
                 ctx.restore();
             } else {
-                // Fallback for nodes without images (like the Center)
                 ctx.beginPath();
                 ctx.arc(node.x, node.y, size, 0, 2 * Math.PI, false);
                 ctx.fillStyle = node.color || '#fff';
