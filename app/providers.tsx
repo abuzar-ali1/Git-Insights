@@ -4,7 +4,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactNode, useState } from 'react';
 import Header from './Components/Header';
 import Sidebar from './Components/Sidebar';
-import { ToastProvider } from './Components/ToasterProvider';
 
 export function Providers({ children }: { children: ReactNode }) {
   const [queryClient] = useState(() => new QueryClient({
@@ -28,7 +27,6 @@ export function Providers({ children }: { children: ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ToastProvider>
         <div className="flex h-screen overflow-hidden bg-[#0d1117] text-gray-300">
           
           <Sidebar 
@@ -49,7 +47,6 @@ export function Providers({ children }: { children: ReactNode }) {
 
           </div>
         </div>
-      </ToastProvider>
     </QueryClientProvider>
   );
 }

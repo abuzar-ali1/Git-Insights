@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import './globals.css';
 import { Providers } from './providers';
+import { SettingsProvider } from '@/Context/SettingsContext';
 
 
 export const metadata: Metadata = {
@@ -13,14 +14,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
- 
+
 
   return (
     <html lang="en" className="dark scroll-smooth">
       <body className="bg-gray-950 text-gray-100 min-h-screen flex flex-col">
-        <Providers>
-          {children}
-        </Providers>
+        <SettingsProvider>
+          <Providers>
+            {children}
+          </Providers>
+        </SettingsProvider>
       </body>
     </html>
   );
