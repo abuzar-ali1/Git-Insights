@@ -54,7 +54,7 @@ const Sidebar = ({ isMobileOpen = false, onClose }: SidebarProps) => {
     {
       category: 'General',
       items: [
-        { name: 'Overview', icon: <LayoutDashboard className="w-5 h-5" />, path: '/dashboard' },
+        { name: 'Overview', icon: <LayoutDashboard className="w-5 h-5" />, path: '/overview' },
         { name: 'Repositories', icon: <BookOpen className="w-5 h-5" />, path: '/repos' },
         { name: 'Code Frequency', icon: <Code2 className="w-5 h-5" />, path: '/frequency' },
       ]
@@ -63,7 +63,7 @@ const Sidebar = ({ isMobileOpen = false, onClose }: SidebarProps) => {
       category: 'Activity',
       items: [
         { name: 'Commits', icon: <GitCommit className="w-5 h-5" />, path: '/commits' },
-        { name: 'Pull Requests', icon: <GitPullRequest className="w-5 h-5" />, path: '/prs' },
+        { name: 'Pull Requests', icon: <GitPullRequest className="w-5 h-5" />, path: '/pulls' },
         { name: 'Network Graph', icon: <GitBranch className="w-5 h-5" />, path: '/network' },
       ]
     },
@@ -207,7 +207,12 @@ const Sidebar = ({ isMobileOpen = false, onClose }: SidebarProps) => {
           {/* User / Footer */}
           <div className="p-4 border-t border-gray-800">
             <div className={`flex items-center ${isCollapsed && !isMobile ? 'justify-center' : 'gap-3'}`}>
-              <div className="h-9 w-9 rounded-full bg-gradient-to-tr from-green-400 to-blue-500 flex-shrink-0" />
+              
+              <img 
+                src="https://github.com/abuzar-ali1.png" 
+                alt="Abuzar Ali" 
+                className="h-9 w-9 rounded-full border border-gray-700 flex-shrink-0 bg-gray-800"
+              />
               
               <AnimatePresence>
                 {(!isCollapsed || isMobile) && (
