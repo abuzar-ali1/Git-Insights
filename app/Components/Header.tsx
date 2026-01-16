@@ -33,7 +33,7 @@ const ROUTE_TITLES: Record<string, string> = {
 const Header = ({ onMenuClick }: HeaderProps) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
-  
+
   const { defaultRepo } = useSettings();
   const pathname = usePathname();
   const currentTitle = ROUTE_TITLES[pathname] || 'Overview';
@@ -44,7 +44,8 @@ const Header = ({ onMenuClick }: HeaderProps) => {
     name: 'Abuzar Ali',
     role: 'Frontend Developer',
     avatar: 'https://github.com/abuzar-ali1.png', // Automatically gets your real GitHub pic
-    github: 'https://github.com/abuzar-ali1'
+    github: 'https://github.com/abuzar-ali1',
+    portfolio: 'https://abuzar-ali.vercel.app/'
   };
 
   return (
@@ -54,7 +55,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
       className="sticky top-0 z-40 w-full border-b border-gray-800 bg-[#0d1117]/80 backdrop-blur-md"
     >
       <div className="flex h-16 items-center justify-between px-4 sm:px-6">
-        
+
         {/* LEFT: Logo & Breadcrumbs */}
         <div className="flex items-center gap-4">
           <button
@@ -79,17 +80,17 @@ const Header = ({ onMenuClick }: HeaderProps) => {
 
         {/* RIGHT: Search & Profile */}
         <div className="flex items-center gap-3 sm:gap-4">
-          
+
           {/* Search Bar */}
           <div className="hidden md:block relative group">
             <div className={`
               flex items-center transition-all duration-200 ease-in-out border rounded-md px-3 py-1.5
-              ${isSearchFocused 
-                ? 'w-64 border-blue-500 ring-1 ring-blue-500/20 bg-[#0d1117]' 
+              ${isSearchFocused
+                ? 'w-64 border-blue-500 ring-1 ring-blue-500/20 bg-[#0d1117]'
                 : 'w-48 border-gray-700 bg-gray-800/50 hover:border-gray-600'}
             `}>
               <Search className="w-4 h-4 text-gray-500 mr-2" />
-              <input 
+              <input
                 type="text"
                 placeholder="Type / to search"
                 onFocus={() => setIsSearchFocused(true)}
@@ -103,7 +104,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
           </div>
 
           <div className="flex items-center gap-2 border-l border-gray-800 pl-3 sm:pl-4">
-            
+
             {/* Notification Bell (Mock) */}
             <motion.button
               whileTap={{ scale: 0.95 }}
@@ -119,10 +120,10 @@ const Header = ({ onMenuClick }: HeaderProps) => {
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
                 className="flex items-center gap-2 focus:outline-none"
               >
-                <img 
-                    src={MY_PROFILE.avatar} 
-                    alt="Abuzar" 
-                    className="h-8 w-8 rounded-full border border-gray-600 bg-gray-800"
+                <img
+                  src={MY_PROFILE.avatar}
+                  alt="Abuzar"
+                  className="h-8 w-8 rounded-full border border-gray-600 bg-gray-800"
                 />
                 <ChevronDown className={`w-3 h-3 text-gray-400 transition-transform duration-200 ${isProfileOpen ? 'rotate-180' : ''} hidden sm:block`} />
               </button>
@@ -131,11 +132,11 @@ const Header = ({ onMenuClick }: HeaderProps) => {
                 {isProfileOpen && (
                   <>
                     {/* Invisible Overlay to close menu when clicking outside */}
-                    <div 
+                    <div
                       className="fixed inset-0 z-40"
                       onClick={() => setIsProfileOpen(false)}
                     />
-                    
+
                     <motion.div
                       initial={{ opacity: 0, y: 8, scale: 0.96 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -148,30 +149,35 @@ const Header = ({ onMenuClick }: HeaderProps) => {
                         <p className="text-sm font-bold text-white">{MY_PROFILE.name}</p>
                         <p className="text-xs text-blue-400 font-mono mt-0.5">{MY_PROFILE.role}</p>
                       </div>
-                      
+
                       <div className="p-2">
-                        <a 
-                           href={MY_PROFILE.github} 
-                           target="_blank" 
-                           rel="noreferrer"
-                           className="flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:bg-gray-800 rounded-lg transition-colors"
-                           onClick={() => setIsProfileOpen(false)}
+                        <a
+                          href={MY_PROFILE.github}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:bg-gray-800 rounded-lg transition-colors"
+                          onClick={() => setIsProfileOpen(false)}
                         >
                           <Github className="w-4 h-4 text-gray-500" />
                           <span>View GitHub Profile</span>
                         </a>
-                        
-                        <button className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:bg-gray-800 rounded-lg transition-colors text-left">
+
+                        <a
+                          href={MY_PROFILE.portfolio}
+                          target="_blank"
+                          rel="noreferrer"
+                          onClick={() => setIsProfileOpen(false)}
+                          className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:bg-gray-800 rounded-lg transition-colors text-left">
                           <Code className="w-4 h-4 text-gray-500" />
                           <span>My Portfolio</span>
-                        </button>
+                        </a>
 
                         <button className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:bg-gray-800 rounded-lg transition-colors text-left">
                           <Mail className="w-4 h-4 text-gray-500" />
                           <span>Contact Me</span>
                         </button>
                       </div>
-                      
+
                       <div className="px-5 py-2 bg-gray-800/30 border-t border-gray-700 text-[10px] text-gray-500 text-center">
                         Managed by Abuzar Ali
                       </div>
