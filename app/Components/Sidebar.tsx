@@ -63,7 +63,7 @@ const Sidebar = ({ isMobileOpen = false, onClose }: SidebarProps) => {
       category: 'Activity',
       items: [
         { name: 'Commits', icon: <GitCommit className="w-5 h-5" />, path: '/commits' },
-        { name: 'Pull Requests', icon: <GitPullRequest className="w-5 h-5" />, path: '/pulls' },
+        { name: 'Pull Requests', icon: <GitPullRequest className="w-5 h-5" />, path: '/prs' },
         { name: 'Network Graph', icon: <GitBranch className="w-5 h-5" />, path: '/network' },
       ]
     },
