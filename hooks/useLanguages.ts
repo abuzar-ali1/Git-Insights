@@ -26,7 +26,7 @@ const LANGUAGE_COLORS: Record<string, string> = {
 
 export interface LanguageStat {
   name: string;
-  value: number; // Percentage
+  value: number; 
   bytes: number;
   color: string;
 }

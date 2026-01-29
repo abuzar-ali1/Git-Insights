@@ -1,33 +1,64 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Search, Github, AlertCircle } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search, Github, AlertCircle, Flame, ChevronRight } from 'lucide-react';
 import { useGitHubStats } from '@/hooks/useGitHubStats';
 import { useGitHubLanguages } from '@/hooks/useGitHubLanguages';
 import { useGitHubCommits } from '@/hooks/useGitHubCommits';
 import { useGitHubIssues } from '@/hooks/useGitHubIssues';
-import StatsGrid from '../Components/StatsGrid';
+import StatsGrid from '../Components/StatsGrid';    
 import ChartContainer from '../Components/ChartContainer';
 import DataTable from '../Components/DataTable';
 import RepoInfoCard from '../Components/RepoInfoCard';
 
+const SUGGESTIONS = [
+    'abuzar-ali1/dummy-shop', 
+    'facebook/react',
+    'vercel/next.js',
+    'tailwindlabs/tailwindcss',
+    'shadcn-ui/ui',
+    'microsoft/TypeScript'
+];
+
 export default function DashboardPage() {
     const [repoInput, setRepoInput] = useState('facebook/react');
     const [repoPath, setRepoPath] = useState('facebook/react');
+    const [showSuggestions, setShowSuggestions] = useState(false); // Controls dropdown visibility
     
     // Data Fetching
     const { data: repoData, isLoading: repoLoading, error: repoError } = useGitHubStats(repoPath);
     const { data: languagesData, isLoading: langLoading } = useGitHubLanguages(repoPath);
     const { data: commitsData, isLoading: commitsLoading } = useGitHubCommits(repoPath, '7d');
     const { data: issuesData, isLoading: issuesLoading } = useGitHubIssues(repoPath);
+    
+    const searchContainerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+                setShowSuggestions(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        if (repoInput.includes('/')) setRepoPath(repoInput);
+        if (repoInput.includes('/')) {
+            setRepoPath(repoInput);
+            setShowSuggestions(false);
+        }
     };
 
-    // Transform Data for Charts
+    // 👇 2. Handle clicking a suggestion
+    const handleSuggestionClick = (repo: string) => {
+        setRepoInput(repo);
+        setRepoPath(repo);
+        setShowSuggestions(false);
+    };
+
     const chartData = commitsData?.slice(0, 7).map((c: any, i: number) => ({
         name: `Day ${i + 1}`,
         commits: c.total || Math.floor(Math.random() * 50) 
@@ -49,6 +80,8 @@ export default function DashboardPage() {
         show: { opacity: 1, y: 0 }
     };
 
+    const filteredSuggestions = SUGGESTIONS.filter(s => s.toLowerCase().includes(repoInput.toLowerCase()));
+
     return (
         <div className="min-h-screen bg-[#0d1117] p-4 lg:p-8 text-gray-300">
             {/* Header / Search Area */}
@@ -67,16 +100,55 @@ export default function DashboardPage() {
                     </p>
                 </div>
 
-                <form onSubmit={handleSearch} className="relative w-full md:w-96">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
-                    <input
-                        type="text"
-                        value={repoInput}
-                        onChange={(e) => setRepoInput(e.target.value)}
-                        placeholder="username/repository"
-                        className="w-full bg-[#161b22] border border-gray-700 rounded-lg py-2.5 pl-10 pr-4 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder:text-gray-600"
-                    />
-                </form>
+                {/* 👇 3. Updated Search Form with Dropdown */}
+                <div className="relative w-full md:w-96" ref={searchContainerRef}>
+                    <form onSubmit={handleSearch} className="relative z-20">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
+                        <input
+                            type="text"
+                            value={repoInput}
+                            onChange={(e) => setRepoInput(e.target.value)}
+                            onFocus={() => setShowSuggestions(true)}
+                            placeholder="username/repository"
+                            className="w-full bg-[#161b22] border border-gray-700 rounded-lg py-2.5 pl-10 pr-4 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder:text-gray-600"
+                        />
+                    </form>
+
+                    {/* Suggestions Dropdown */}
+                    <AnimatePresence>
+                        {showSuggestions && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                className="absolute top-full left-0 right-0 mt-2 bg-[#1c2128] border border-gray-700 rounded-lg shadow-xl overflow-hidden z-30"
+                            >
+                                <div className="px-3 py-2 text-xs font-semibold text-gray-500 bg-[#161b22] border-b border-gray-700 flex items-center gap-2">
+                                    <Flame className="w-3 h-3 text-orange-500" />
+                                    POPULAR & RECENT
+                                </div>
+                                <ul>
+                                    {filteredSuggestions.map((repo) => (
+                                        <li key={repo}>
+                                            <button
+                                                onClick={() => handleSuggestionClick(repo)}
+                                                className="w-full text-left px-4 py-2.5 text-sm text-gray-300 hover:bg-blue-600 hover:text-white transition-colors flex items-center justify-between group"
+                                            >
+                                                <span className="font-mono">{repo}</span>
+                                                <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                            </button>
+                                        </li>
+                                    ))}
+                                    {filteredSuggestions.length === 0 && (
+                                        <li className="px-4 py-3 text-sm text-gray-500 text-center">
+                                            Press Enter to search...
+                                        </li>
+                                    )}
+                                </ul>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
             </motion.div>
 
             {repoError ? (
