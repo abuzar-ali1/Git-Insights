@@ -24,7 +24,7 @@ const SUGGESTIONS = [
 export default function DashboardPage() {
     const [repoInput, setRepoInput] = useState('facebook/react');
     const [repoPath, setRepoPath] = useState('facebook/react');
-    const [showSuggestions, setShowSuggestions] = useState(false); // Controls dropdown visibility
+    const [showSuggestions, setShowSuggestions] = useState(false); 
     
     // Data Fetching
     const { data: repoData, isLoading: repoLoading, error: repoError } = useGitHubStats(repoPath);

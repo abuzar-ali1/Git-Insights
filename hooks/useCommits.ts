@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from 'react';
 
-// The shape of our "Mailbox" data
 export interface PunchCardData {
   day: number;   // 0-6 (Sun-Sat)
   hour: number;  // 0-23
